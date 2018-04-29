@@ -13,7 +13,7 @@ public class TriPathsApplication implements CommandLineRunner {
 
     @Override
     public void run(final String... args) {
-
+        // TODO: read text format triangle from standard input
     }
 
 }
