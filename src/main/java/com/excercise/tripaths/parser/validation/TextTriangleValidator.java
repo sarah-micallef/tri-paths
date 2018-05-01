@@ -1,5 +1,7 @@
 package com.excercise.tripaths.parser.validation;
 
+import org.springframework.util.StringUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
@@ -18,11 +20,18 @@ public class TextTriangleValidator implements ConstraintValidator<TextTriangle, 
             return true;
         }
 
-        boolean matches = true;
+        int rowIndex = 1;
         for (final String row : value) {
-            matches = matches && VALID_TEXT_TRIANGLE_ROW_FORMAT.matcher(row).matches();
+
+            final int expectedNumberOfDigitsInRow = rowIndex;
+            if (!VALID_TEXT_TRIANGLE_ROW_FORMAT.matcher(row).matches() || StringUtils.delimitedListToStringArray(row, " ").length != expectedNumberOfDigitsInRow) {
+                return false;
+            }
+
+            rowIndex++;
         }
-        return matches;
+
+        return true;
     }
 
 }

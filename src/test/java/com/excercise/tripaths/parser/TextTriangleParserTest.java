@@ -59,7 +59,14 @@ public class TextTriangleParserTest {
     private Object[][] provideInvalidTextFormatTriangle() {
         return new Object[][]{
                 {"Non-numeric weights", Arrays.asList("1", "invalid 2", "3 4 5")},
-                {"Invalid delimiter", Arrays.asList("1", "2,3", "4, 5", "4   5")}
+
+                {"Invalid delimiter", Arrays.asList("1", "2,3")},
+                {"Invalid delimiter", Arrays.asList("1", "4, 5")},
+                {"Invalid delimiter", Arrays.asList("1", "4   5")},
+
+                {"Invalid number of vertices", Collections.singletonList("1 2")},
+                {"Invalid number of vertices", Arrays.asList("1", "1")},
+                {"Invalid number of vertices", Arrays.asList("1", "1 2 3")}
         };
     }
 
