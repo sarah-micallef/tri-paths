@@ -17,61 +17,64 @@ import java.util.stream.Collectors;
  * A {@link ShortestPathFinder} that makes use of Dijkstra's algorithm to find the shortest path in a graph starting from
  * a given vertex.
  * <p>
- * FIXME: REFACTOR!!!!
  */
 @Slf4j
 @Component
 public class DijkstraShortestPathFinder implements ShortestPathFinder {
 
     @Override
-    public List<WeightedVertex> find(@NotNull final Graph<WeightedVertex, DefaultEdge> graph, @NotNull @Valid final WeightedVertex sourceVertex) {
+    public List<WeightedVertex> find(@NotNull final Graph<WeightedVertex, DefaultEdge> graph, @NotNull @Valid final WeightedVertex srcVertex) {
 
-        if (!graph.containsVertex(sourceVertex)) {
-            throw new IllegalStateException(String.format("Source vertex %s is not contained in graph.", sourceVertex));
+        if (!graph.containsVertex(srcVertex)) {
+            throw new IllegalStateException(String.format("Source vertex %s is not contained in graph.", srcVertex));
         }
 
         final Set<WeightedVertex> leafNodes = new HashSet<>();
-        final Map<WeightedVertex, WeightedVertex> prev = new HashMap<>();
+        final Map<WeightedVertex, WeightedVertex> shortestPathPredecessors = new HashMap<>();
+        final Map<WeightedVertex, Long> distancesFromSrcVertex = calculateInitialDistancesFromSrcVertex(graph, srcVertex);
 
-        final Map<@NotNull WeightedVertex, Long> distances = graph.vertexSet().stream().collect(Collectors.toMap(Function.identity(), v -> sourceVertex.equals(v) ? sourceVertex.getWeight() : Integer.MAX_VALUE));
-        final Set<WeightedVertex> visitedVertices = new HashSet<>();
-        final Set<WeightedVertex> unvistedVertices = new HashSet<>(graph.vertexSet());
+        final Set<WeightedVertex> unvisitedVertices = new HashSet<>(graph.vertexSet());
+        while (!unvisitedVertices.isEmpty()) {
 
-        while (!unvistedVertices.isEmpty()) {
-            final WeightedVertex minDistVertex = findUnvisitedVertexOfMinDistance(unvistedVertices, distances);
-            unvistedVertices.remove(minDistVertex);
-            if (graph.outDegreeOf(minDistVertex) == 0) {
-                leafNodes.add(minDistVertex);
+            final WeightedVertex minDstVertex = findMinDstVertex(unvisitedVertices, distancesFromSrcVertex);
+            unvisitedVertices.remove(minDstVertex);
+
+            if (graph.outDegreeOf(minDstVertex) == 0) {
+                leafNodes.add(minDstVertex);
             }
 
-            final List<WeightedVertex> neighbours = Graphs.neighborListOf(graph, minDistVertex);
+            Graphs.successorListOf(graph, minDstVertex)
+                    .forEach(neighbour -> {
+                        final Long currentDstToNeighbour = distancesFromSrcVertex.get(neighbour);
+                        final long newDstToNeighbour = distancesFromSrcVertex.get(minDstVertex) + neighbour.getWeight();
+                        if (newDstToNeighbour < currentDstToNeighbour) {
+                            distancesFromSrcVertex.put(neighbour, newDstToNeighbour);
+                            shortestPathPredecessors.put(neighbour, minDstVertex);
+                        }
+                    });
 
-            neighbours.forEach(neighbour -> {
-                final Long currentDstToNeighbour = distances.get(neighbour);
-                final long newDstToNeighbour = distances.get(minDistVertex) + neighbour.getWeight();
-                if (newDstToNeighbour < currentDstToNeighbour) {
-                    distances.put(neighbour, newDstToNeighbour);
-                    prev.put(neighbour, minDistVertex);
-                }
-            });
-
-            visitedVertices.add(minDistVertex);
         }
 
-        @NotNull final WeightedVertex leafNodeWithMinDst = distances.entrySet().stream().filter(entry -> leafNodes.contains(entry.getKey())).min(Comparator.comparingLong(Map.Entry::getValue)).get().getKey();
-        final List<WeightedVertex> shortestPath = new ArrayList<>();
-        shortestPath.add(leafNodeWithMinDst);
-        WeightedVertex previous = prev.get(leafNodeWithMinDst);
-        while (previous != null) {
-            shortestPath.add(previous);
-            previous = prev.get(previous);
-        }
-        Collections.reverse(shortestPath);
-        return shortestPath;
+        final WeightedVertex minDstLeafNode = findMinDstVertex(leafNodes, distancesFromSrcVertex);
+        return constructPathToTargetVertex(minDstLeafNode, shortestPathPredecessors);
     }
 
-    WeightedVertex findUnvisitedVertexOfMinDistance(final Set<WeightedVertex> unvisitedVertices, final Map<WeightedVertex, Long> distances) {
-        return distances.entrySet().stream().filter(dst -> unvisitedVertices.contains(dst.getKey())).sorted(Comparator.comparingLong(Map.Entry::getValue)).findFirst().map(Map.Entry::getKey).get();
+    private Map<WeightedVertex, Long> calculateInitialDistancesFromSrcVertex(final Graph<WeightedVertex, DefaultEdge> graph, final WeightedVertex srcVertex) {
+        return graph.vertexSet().stream().collect(Collectors.toMap(Function.identity(), v -> srcVertex.equals(v) ? srcVertex.getWeight() : Integer.MAX_VALUE));
+    }
+
+    private WeightedVertex findMinDstVertex(final Set<WeightedVertex> vertices, final Map<WeightedVertex, Long> distances) {
+        return vertices.stream().min(Comparator.comparingLong(distances::get)).orElseThrow(() -> new IllegalStateException("No min dst vertex could be found because given collection is empty."));
+    }
+
+    private List<WeightedVertex> constructPathToTargetVertex(final WeightedVertex targetVertex, final Map<WeightedVertex, WeightedVertex> predecessors) {
+        final ArrayDeque<WeightedVertex> path = new ArrayDeque<>();
+        WeightedVertex pathVertex = targetVertex;
+        while (pathVertex != null) {
+            path.addFirst(pathVertex);
+            pathVertex = predecessors.get(pathVertex);
+        }
+        return new ArrayList<>(path);
     }
 
 }
