@@ -1,8 +1,9 @@
 package com.excercise.tripaths.parser;
 
 import com.excercise.tripaths.GraphTestWrapper;
-import com.excercise.tripaths.triangle.WeightedVertex;
 import com.excercise.tripaths.shortestpath.WeightedVertexAssert;
+import com.excercise.tripaths.triangle.Triangle;
+import com.excercise.tripaths.triangle.WeightedVertex;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import junitparams.naming.TestCaseName;
@@ -42,11 +43,12 @@ public class TextTriangleParserTest {
 
     @Test
     @Parameters(method = "provideNullOrEmptyList")
-    public void parse_nullOrEmpty_shouldReturnEmptyGraph(final List<String> textFormatTriangle) {
-        final Graph<WeightedVertex, DefaultEdge> parsed = parser.parse(textFormatTriangle);
-        Assertions.assertThat(parsed)
+    public void parse_nullOrEmpty_shouldReturnEmptyGraphWithoutStartingVertex(final List<String> textFormatTriangle) {
+        final Triangle triangle = parser.parse(textFormatTriangle);
+        Assertions.assertThat(triangle)
                 .isNotNull()
-                .satisfies(graph -> Assertions.assertThat(graph.vertexSet()).isEmpty());
+                .satisfies(tri -> Assertions.assertThat(tri.getGraph().vertexSet()).isEmpty())
+                .satisfies(tri -> Assertions.assertThat(tri.getStartingVertex()).isEmpty());
     }
 
     private Object[][] provideNullOrEmptyList() {
@@ -78,20 +80,24 @@ public class TextTriangleParserTest {
     }
 
     @Test
-    public void parse_validTextFormatTriangle_shouldConstructValidGraph() {
-        final Graph<WeightedVertex, DefaultEdge> parsed = parser.parse(Arrays.asList("7", "6 3", "3 8 5", "11 2 10 9"));
-        Assertions.assertThat(parsed).isNotNull();
-        Assertions.assertThat(parsed.vertexSet()).hasSize(10);
-        Assertions.assertThat(parsed.edgeSet()).hasSize(12);
+    public void parse_validTextFormatTriangle_shouldConstructValidTriangle() {
+        final Triangle triangle = parser.parse(Arrays.asList("7", "6 3", "3 8 5", "11 2 10 9"));
 
-        final GraphTestWrapper graphTestWrapper = GraphTestWrapper.wrap(parsed);
+        Assertions.assertThat(triangle.getStartingVertex()).hasValueSatisfying(v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(7).hasLabel("7"));
+
+        final Graph<WeightedVertex, DefaultEdge> graph = triangle.getGraph();
+        Assertions.assertThat(graph).isNotNull();
+        Assertions.assertThat(graph.vertexSet()).hasSize(10);
+        Assertions.assertThat(graph.edgeSet()).hasSize(12);
+
+        final GraphTestWrapper graphTestWrapper = GraphTestWrapper.wrap(graph);
 
         // row 1
         final Optional<WeightedVertex> r1v7 = graphTestWrapper.findAnyVertex(7);
         Assertions.assertThat(r1v7)
                 .hasValueSatisfying(v -> {
                     WeightedVertexAssert.assertThat(v).hasDefinedId().hasLabel("7").hasWeight(7);
-                    Assertions.assertThat(parsed.inDegreeOf(v)).isEqualTo(0);
+                    Assertions.assertThat(graph.inDegreeOf(v)).isEqualTo(0);
                 });
 
         final Map<Long, WeightedVertex> r1v7NeighboursByWeight = graphTestWrapper.getOutgoingNeighboursOfByWeight(r1v7.get());

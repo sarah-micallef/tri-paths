@@ -1,9 +1,9 @@
 package com.excercise.tripaths.parser;
 
 import com.excercise.tripaths.parser.validation.TextTriangle;
+import com.excercise.tripaths.triangle.Triangle;
 import com.excercise.tripaths.triangle.WeightedVertex;
 import lombok.extern.slf4j.Slf4j;
-import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Validated
 public class TextTriangleParser {
 
-    public Graph<WeightedVertex, DefaultEdge> parse(@TextTriangle final List<String> textTriangle) {
+    public Triangle parse(@TextTriangle final List<String> textTriangle) {
 
         log.trace("Parsing text triangle.");
 
@@ -27,7 +27,7 @@ public class TextTriangleParser {
 
         if (textTriangle == null || textTriangle.isEmpty()) {
             log.info("Text triangle is null or empty. Parsed graph is empty.");
-            return graph;
+            return Triangle.builder().graph(graph).build();
         }
 
         final List<List<WeightedVertex>> rows =
@@ -60,7 +60,10 @@ public class TextTriangleParser {
 
         }
 
-        return graph;
+        return Triangle.builder()
+                .startingVertex(rows.get(0).get(0))
+                .graph(graph)
+                .build();
     }
 
 }
