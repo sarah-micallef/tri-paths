@@ -31,8 +31,8 @@ public class GraphTestWrapper {
     /**
      * @apiNote use this method only when the given vertex has neighbours with unique weight.
      */
-    public Map<Long, WeightedVertex> getNeighbourListOfByWeight(final WeightedVertex vertex) {
-        return Graphs.neighborListOf(wrapped, vertex).stream().collect(Collectors.toMap(WeightedVertex::getWeight, Function.identity()));
+    public Map<Long, WeightedVertex> getOutgoingNeighboursOfByWeight(final WeightedVertex vertex) {
+        return Graphs.successorListOf(wrapped, vertex).stream().collect(Collectors.toMap(WeightedVertex::getWeight, Function.identity()));
     }
 
 }

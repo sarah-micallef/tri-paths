@@ -1,1 +1,5 @@
 debug: true
+
+logging:
+  level:
+    com.excercise.tripaths.*: TRACE
