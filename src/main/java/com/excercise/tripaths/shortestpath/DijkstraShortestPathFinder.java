@@ -1,6 +1,7 @@
 package com.excercise.tripaths.shortestpath;
 
 import com.excercise.tripaths.triangle.WeightedVertex;
+import lombok.extern.slf4j.Slf4j;
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultEdge;
@@ -15,14 +16,19 @@ import java.util.stream.Collectors;
 /**
  * A {@link ShortestPathFinder} that makes use of Dijkstra's algorithm to find the shortest path in a graph starting from
  * a given vertex.
- *
+ * <p>
  * FIXME: REFACTOR!!!!
  */
+@Slf4j
 @Component
 public class DijkstraShortestPathFinder implements ShortestPathFinder {
 
     @Override
     public List<WeightedVertex> find(@NotNull final Graph<WeightedVertex, DefaultEdge> graph, @NotNull @Valid final WeightedVertex sourceVertex) {
+
+        if (!graph.containsVertex(sourceVertex)) {
+            throw new IllegalStateException(String.format("Source vertex %s is not contained in graph.", sourceVertex));
+        }
 
         final Set<WeightedVertex> leafNodes = new HashSet<>();
         final Map<WeightedVertex, WeightedVertex> prev = new HashMap<>();
