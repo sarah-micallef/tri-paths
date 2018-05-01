@@ -1,4 +1,4 @@
-package com.excercise.tripaths.parser.validation;
+package com.exercise.tripaths.parser.validation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;

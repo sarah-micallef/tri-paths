@@ -1,4 +1,4 @@
-package com.excercise.tripaths.parser.validation;
+package com.exercise.tripaths.parser.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

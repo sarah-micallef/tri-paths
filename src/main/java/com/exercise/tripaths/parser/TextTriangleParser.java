@@ -1,8 +1,8 @@
-package com.excercise.tripaths.parser;
+package com.exercise.tripaths.parser;
 
-import com.excercise.tripaths.parser.validation.TextTriangle;
-import com.excercise.tripaths.triangle.Triangle;
-import com.excercise.tripaths.triangle.WeightedVertex;
+import com.exercise.tripaths.parser.validation.TextTriangle;
+import com.exercise.tripaths.triangle.Triangle;
+import com.exercise.tripaths.triangle.WeightedVertex;
 import lombok.extern.slf4j.Slf4j;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;

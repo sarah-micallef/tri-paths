@@ -1,9 +1,9 @@
-package com.excercise.tripaths.parser;
+package com.exercise.tripaths.parser;
 
-import com.excercise.tripaths.GraphTestWrapper;
-import com.excercise.tripaths.shortestpath.WeightedVertexAssert;
-import com.excercise.tripaths.triangle.Triangle;
-import com.excercise.tripaths.triangle.WeightedVertex;
+import com.exercise.tripaths.GraphTestWrapper;
+import com.exercise.tripaths.shortestpath.WeightedVertexAssert;
+import com.exercise.tripaths.triangle.Triangle;
+import com.exercise.tripaths.triangle.WeightedVertex;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import junitparams.naming.TestCaseName;
@@ -48,7 +48,7 @@ public class TextTriangleParserTest {
         Assertions.assertThat(triangle)
                 .isNotNull()
                 .satisfies(tri -> Assertions.assertThat(tri.getGraph().vertexSet()).isEmpty())
-                .satisfies(tri -> Assertions.assertThat(tri.getStartingVertex()).isEmpty());
+                .satisfies(tri -> Assertions.assertThat(tri.getStartingVertex()).isNull());
     }
 
     private Object[][] provideNullOrEmptyList() {
@@ -83,7 +83,7 @@ public class TextTriangleParserTest {
     public void parse_validTextFormatTriangle_shouldConstructValidTriangle() {
         final Triangle triangle = parser.parse(Arrays.asList("7", "6 3", "3 8 5", "11 2 10 9"));
 
-        Assertions.assertThat(triangle.getStartingVertex()).hasValueSatisfying(v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(7).hasLabel("7"));
+        WeightedVertexAssert.assertThat(triangle.getStartingVertex()).hasDefinedId().hasWeight(7).hasLabel("7");
 
         final Graph<WeightedVertex, DefaultEdge> graph = triangle.getGraph();
         Assertions.assertThat(graph).isNotNull();

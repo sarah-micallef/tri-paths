@@ -1,4 +1,4 @@
-package com.excercise.tripaths.triangle;
+package com.exercise.tripaths.triangle;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

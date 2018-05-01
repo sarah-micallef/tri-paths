@@ -1,6 +1,6 @@
-package com.excercise.tripaths;
+package com.exercise.tripaths;
 
-import com.excercise.tripaths.triangle.WeightedVertex;
+import com.exercise.tripaths.triangle.WeightedVertex;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.jgrapht.Graph;

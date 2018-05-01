@@ -1,4 +1,4 @@
-package com.excercise.tripaths.triangle;
+package com.exercise.tripaths.triangle;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,8 +7,8 @@ import org.jgrapht.graph.DefaultEdge;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
+@Getter
 @Builder
 public class Triangle {
 
@@ -19,8 +19,7 @@ public class Triangle {
     @NotNull
     private final Graph<WeightedVertex, DefaultEdge> graph;
 
-    public Optional<WeightedVertex> getStartingVertex() {
-        return Optional.ofNullable(startingVertex);
+    public boolean isEmpty() {
+        return graph.vertexSet().isEmpty();
     }
-
 }

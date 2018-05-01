@@ -1,6 +1,6 @@
-package com.excercise.tripaths.shortestpath;
+package com.exercise.tripaths.shortestpath;
 
-import com.excercise.tripaths.triangle.WeightedVertex;
+import com.exercise.tripaths.triangle.WeightedVertex;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.assertj.core.api.Assertions;
