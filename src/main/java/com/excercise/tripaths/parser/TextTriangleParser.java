@@ -12,9 +12,9 @@ import java.util.List;
 
 @Component
 @Validated
-public class TextFormatTriangleParser {
+public class TextTriangleParser {
 
-    public Graph<WeightedVertex, DefaultEdge> parse(@Valid final List<String> textFormatTriangle) {
+    public Graph<WeightedVertex, DefaultEdge> parse(@Valid final List<String> textTriangle) {
         return new DefaultDirectedGraph<>(DefaultEdge.class);
     }
 

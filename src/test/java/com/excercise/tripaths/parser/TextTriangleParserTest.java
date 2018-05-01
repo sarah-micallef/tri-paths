@@ -25,11 +25,11 @@ import javax.validation.ConstraintViolationException;
 import java.util.*;
 
 /**
- * Tests for {@link TextFormatTriangleParser}
+ * Tests for {@link TextTriangleParser}
  */
 @RunWith(JUnitParamsRunner.class)
-@SpringBootTest(classes = TextFormatTriangleParserTest.TextFormatTriangleParserTestConfig.class)
-public class TextFormatTriangleParserTest {
+@SpringBootTest(classes = TextTriangleParserTest.TextFormatTriangleParserTestConfig.class)
+public class TextTriangleParserTest {
 
     @ClassRule
     public static final SpringClassRule springClassRule = new SpringClassRule();
@@ -38,7 +38,7 @@ public class TextFormatTriangleParserTest {
     public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
     @Autowired
-    private TextFormatTriangleParser parser;
+    private TextTriangleParser parser;
 
     @Test
     @Parameters(method = "provideNullOrEmptyList")
@@ -131,8 +131,8 @@ public class TextFormatTriangleParserTest {
     public static class TextFormatTriangleParserTestConfig {
 
         @Bean
-        public TextFormatTriangleParser textFormatTriangleParser() {
-            return new TextFormatTriangleParser();
+        public TextTriangleParser textFormatTriangleParser() {
+            return new TextTriangleParser();
         }
 
     }
