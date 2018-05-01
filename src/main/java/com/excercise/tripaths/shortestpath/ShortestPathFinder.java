@@ -1,6 +1,7 @@
 package com.excercise.tripaths.shortestpath;
 
 import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -11,9 +12,8 @@ import java.util.List;
 public interface ShortestPathFinder {
 
     /**
-     * @param <E> the edge type of the graph
      * @return the shortest path in the given {@code graph} starting from the given {@code sourceVertex}.
      */
-    <E> List<WeightedVertex> find(@NotNull Graph<WeightedVertex, E> graph, @NotNull @Valid WeightedVertex sourceVertex);
+    List<WeightedVertex> find(@NotNull Graph<WeightedVertex, DefaultEdge> graph, @NotNull @Valid WeightedVertex sourceVertex);
 
 }
