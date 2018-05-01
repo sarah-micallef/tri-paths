@@ -100,39 +100,39 @@ public class TextTriangleParserTest {
                     Assertions.assertThat(graph.inDegreeOf(v)).isEqualTo(0);
                 });
 
-        final Map<Long, WeightedVertex> r1v7NeighboursByWeight = graphTestWrapper.getOutgoingNeighboursOfByWeight(r1v7.get());
+        final Map<Long, WeightedVertex> r1v7NeighboursByWeight = graphTestWrapper.getSuccessorsByWeight(r1v7.get());
         Assertions.assertThat(r1v7NeighboursByWeight)
                 .hasSize(2)
                 .hasEntrySatisfying(6L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(6).hasLabel("6"))
                 .hasEntrySatisfying(3L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(3).hasLabel("3"));
 
         // row 2
-        final Map<Long, WeightedVertex> r2v6NeighboursByWeight = graphTestWrapper.getOutgoingNeighboursOfByWeight(r1v7NeighboursByWeight.get(6L));
+        final Map<Long, WeightedVertex> r2v6NeighboursByWeight = graphTestWrapper.getSuccessorsByWeight(r1v7NeighboursByWeight.get(6L));
         Assertions.assertThat(r2v6NeighboursByWeight)
                 .hasSize(2)
                 .hasEntrySatisfying(3L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasIdNotEqualTo(r1v7NeighboursByWeight.get(3L).getId()).hasWeight(3).hasLabel("3"))
                 .hasEntrySatisfying(8L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(8).hasLabel("8"));
 
-        final Map<Long, WeightedVertex> r2v3NeighboursByWeight = graphTestWrapper.getOutgoingNeighboursOfByWeight(r1v7NeighboursByWeight.get(3L));
+        final Map<Long, WeightedVertex> r2v3NeighboursByWeight = graphTestWrapper.getSuccessorsByWeight(r1v7NeighboursByWeight.get(3L));
         Assertions.assertThat(r2v3NeighboursByWeight)
                 .hasSize(2)
                 .hasEntrySatisfying(8L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(8).hasLabel("8"))
                 .hasEntrySatisfying(5L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(5).hasLabel("5"));
 
         // row 3
-        final Map<Long, WeightedVertex> r3v3NeighboursByWeight = graphTestWrapper.getOutgoingNeighboursOfByWeight(r2v6NeighboursByWeight.get(3L));
+        final Map<Long, WeightedVertex> r3v3NeighboursByWeight = graphTestWrapper.getSuccessorsByWeight(r2v6NeighboursByWeight.get(3L));
         Assertions.assertThat(r3v3NeighboursByWeight)
                 .hasSize(2)
                 .hasEntrySatisfying(11L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(11).hasLabel("11"))
                 .hasEntrySatisfying(2L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(2).hasLabel("2"));
 
-        final Map<Long, WeightedVertex> r3v8NeighboursByWeight = graphTestWrapper.getOutgoingNeighboursOfByWeight(r2v6NeighboursByWeight.get(8L));
+        final Map<Long, WeightedVertex> r3v8NeighboursByWeight = graphTestWrapper.getSuccessorsByWeight(r2v6NeighboursByWeight.get(8L));
         Assertions.assertThat(r3v8NeighboursByWeight)
                 .hasSize(2)
                 .hasEntrySatisfying(2L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(2).hasLabel("2"))
                 .hasEntrySatisfying(10L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(10).hasLabel("10"));
 
-        final Map<Long, WeightedVertex> r3v5NeighboursByWeight = graphTestWrapper.getOutgoingNeighboursOfByWeight(r2v3NeighboursByWeight.get(5L));
+        final Map<Long, WeightedVertex> r3v5NeighboursByWeight = graphTestWrapper.getSuccessorsByWeight(r2v3NeighboursByWeight.get(5L));
         Assertions.assertThat(r3v5NeighboursByWeight)
                 .hasSize(2)
                 .hasEntrySatisfying(10L, v -> WeightedVertexAssert.assertThat(v).hasDefinedId().hasWeight(10).hasLabel("10"))
