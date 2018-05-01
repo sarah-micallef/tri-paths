@@ -1,5 +1,6 @@
 package com.excercise.tripaths.shortestpath;
 
+import com.excercise.tripaths.triangle.WeightedVertex;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
 

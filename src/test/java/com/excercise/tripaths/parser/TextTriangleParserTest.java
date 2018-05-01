@@ -1,7 +1,7 @@
 package com.excercise.tripaths.parser;
 
 import com.excercise.tripaths.GraphTestWrapper;
-import com.excercise.tripaths.shortestpath.WeightedVertex;
+import com.excercise.tripaths.triangle.WeightedVertex;
 import com.excercise.tripaths.shortestpath.WeightedVertexAssert;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;

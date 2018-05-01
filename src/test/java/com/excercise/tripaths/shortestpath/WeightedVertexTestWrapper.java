@@ -1,5 +1,6 @@
 package com.excercise.tripaths.shortestpath;
 
+import com.excercise.tripaths.triangle.WeightedVertex;
 import lombok.Builder;
 
 import java.util.UUID;

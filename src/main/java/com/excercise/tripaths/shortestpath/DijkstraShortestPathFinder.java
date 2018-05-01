@@ -1,5 +1,6 @@
 package com.excercise.tripaths.shortestpath;
 
+import com.excercise.tripaths.triangle.WeightedVertex;
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultEdge;

@@ -1,7 +1,7 @@
 package com.excercise.tripaths.parser;
 
 import com.excercise.tripaths.parser.validation.TextTriangle;
-import com.excercise.tripaths.shortestpath.WeightedVertex;
+import com.excercise.tripaths.triangle.WeightedVertex;
 import lombok.extern.slf4j.Slf4j;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
