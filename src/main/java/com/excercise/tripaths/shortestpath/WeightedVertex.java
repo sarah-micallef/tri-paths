@@ -20,12 +20,12 @@ public class WeightedVertex {
     private final String id;
 
     @Min(0)
-    private final int weight;
+    private final long weight;
 
     @NotBlank
     private final String label;
 
-    public static WeightedVertex build(final int weight) {
+    public static WeightedVertex build(final long weight) {
         return WeightedVertex.builder()
                 .id(UUID.randomUUID().toString())
                 .weight(weight)

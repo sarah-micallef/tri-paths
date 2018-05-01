@@ -26,7 +26,7 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
         final Set<WeightedVertex> leafNodes = new HashSet<>();
         final Map<WeightedVertex, WeightedVertex> prev = new HashMap<>();
 
-        final Map<@NotNull WeightedVertex, Integer> distances = graph.vertexSet().stream().collect(Collectors.toMap(Function.identity(), v -> sourceVertex.equals(v) ? sourceVertex.getWeight() : Integer.MAX_VALUE));
+        final Map<@NotNull WeightedVertex, Long> distances = graph.vertexSet().stream().collect(Collectors.toMap(Function.identity(), v -> sourceVertex.equals(v) ? sourceVertex.getWeight() : Integer.MAX_VALUE));
         final Set<WeightedVertex> visitedVertices = new HashSet<>();
         final Set<WeightedVertex> unvistedVertices = new HashSet<>(graph.vertexSet());
 
@@ -40,8 +40,8 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
             final List<WeightedVertex> neighbours = Graphs.neighborListOf(graph, minDistVertex);
 
             neighbours.forEach(neighbour -> {
-                final Integer currentDstToNeighbour = distances.get(neighbour);
-                final int newDstToNeighbour = distances.get(minDistVertex) + neighbour.getWeight();
+                final Long currentDstToNeighbour = distances.get(neighbour);
+                final long newDstToNeighbour = distances.get(minDistVertex) + neighbour.getWeight();
                 if (newDstToNeighbour < currentDstToNeighbour) {
                     distances.put(neighbour, newDstToNeighbour);
                     prev.put(neighbour, minDistVertex);
@@ -51,7 +51,7 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
             visitedVertices.add(minDistVertex);
         }
 
-        @NotNull final WeightedVertex leafNodeWithMinDst = distances.entrySet().stream().filter(entry -> leafNodes.contains(entry.getKey())).min(Comparator.comparingInt(Map.Entry::getValue)).get().getKey();
+        @NotNull final WeightedVertex leafNodeWithMinDst = distances.entrySet().stream().filter(entry -> leafNodes.contains(entry.getKey())).min(Comparator.comparingLong(Map.Entry::getValue)).get().getKey();
         final List<WeightedVertex> shortestPath = new ArrayList<>();
         shortestPath.add(leafNodeWithMinDst);
         WeightedVertex previous = prev.get(leafNodeWithMinDst);
@@ -63,8 +63,8 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
         return shortestPath;
     }
 
-    WeightedVertex findUnvisitedVertexOfMinDistance(final Set<WeightedVertex> unvisitedVertices, final Map<WeightedVertex, Integer> distances) {
-        return distances.entrySet().stream().filter(dst -> unvisitedVertices.contains(dst.getKey())).sorted(Comparator.comparingInt(Map.Entry::getValue)).findFirst().map(Map.Entry::getKey).get();
+    WeightedVertex findUnvisitedVertexOfMinDistance(final Set<WeightedVertex> unvisitedVertices, final Map<WeightedVertex, Long> distances) {
+        return distances.entrySet().stream().filter(dst -> unvisitedVertices.contains(dst.getKey())).sorted(Comparator.comparingLong(Map.Entry::getValue)).findFirst().map(Map.Entry::getKey).get();
     }
 
 }
